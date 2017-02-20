@@ -13,13 +13,12 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<String[]> teams = new ArrayList<String[]>();
+    public static ArrayList<String[]> teams = new ArrayList<String[]>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ArrayList<String[]> teams = new ArrayList<String[]>();
         // "Ohio State", "Florida State", "Wake Forest", "Boston College", "North Carolina State", "Georgia Tech","North Virginia", "Chicago Sate
         // Team Name
         // Logo resource file
@@ -29,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         // Team Nickname
         // Team Record
         // Team Score
+
+        // Lab 4 comment
 
 
         teams.add(new String[]{"Virginia", "logoh", "January 24, 2017", "6:30 PM E.T.", "Notre Dame, Ind (Purcell Pavilion)", "Trojans", "(21-5)", "71 - 54"});
@@ -52,14 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            teams.add(new String[]{"Virginia", "logoh", "January 24, 2017", "6:30 PM E.T.", "Notre Dame, Ind (Purcell Pavilion)", "Trojans", "(21-5)", "71 - 54"});
-            teams.add(new String[]{"Georgia Tech", "logof", "January 28, 2017", "8:00 PM E.T.", "Atlanta, Ga (McCamish Pavilion)", "Ramblin' Wrecks", "(17-8)", "62 - 60"});
-            teams.add(new String[]{"Duke", "duke", "January 30, 2017", "6:30 PM E.T.", "Notre Dame, Ind (Purcell Pavilion)", "Blue Devils", "(25-3)", "84 - 74"});
-            teams.add(new String[]{"North Carolina", "logoe", "February 5, 2017", "7:00 PM E.T.", "Greensboro, N.C. (Greensboro Coliseum)", "Tar Heels", "(22-4)", "83 - 76"});
-            teams.add(new String[]{"Wake Forest", "logod", "February 7, 2017", "6:30 PM E.T.", "Notre Dame, Ind (Purcell Pavilion)", "Demon Deacons", "(15-10)", "88 - 81"});
-            teams.add(new String[]{"Florida State", "logoc", "February 11, 2017", "6:30 PM E.T.", "Notre Dame, Ind (Purcell Pavilion)", "Seminoles", "(18-4)", "84 - 76"});
-            teams.add(new String[]{"Boston College", "logoa", "February 14, 2017", "8:30 PM E.T.", "Chestnut Hill, Mass (Conte Forum)", "Eagles", "(23-5)", "81 - 72"});
-
+           
             //Write code here to open the activity that will show details of the game event,i.e. if //you click on Florida State, you should see details of the match between Florida State //and Notre Dame. You need to do the following three steps.
 
             //create the intent to start DetailActivity
