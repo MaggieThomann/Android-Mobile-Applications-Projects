@@ -28,10 +28,12 @@ class ScheduleAdapter extends ArrayAdapter<Team> {
         Team matchItem = getItem(position);
 
         TextView teamName = (TextView) scheduleView.findViewById(R.id.scheduleText);
+        TextView teamDate = (TextView) scheduleView.findViewById(R.id.scheduleTextB);
         ImageView teamLogo = (ImageView) scheduleView.findViewById(R.id.teamLogo);
 
         String mDrawableName = matchItem.getTeamlogo();
         teamName.setText(matchItem.getTeamName());
+        teamDate.setText(matchItem.getTeamDate());
         int resID = getContext().getResources().getIdentifier(mDrawableName, "drawable", getContext().getPackageName());
 
         teamLogo.setImageResource(resID );
