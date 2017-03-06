@@ -1,0 +1,7 @@
+Virginia,logoh, January 24 2017, 6:30 PM E.T., Notre Dame Ind (Purcell Pavilion), Trojans, (21-5), 71 - 54
+Georgia Tech,logof, January 28 2017, 8:00 PM E.T., Atlanta Ga (McCamish Pavilion), Ramblin' Wrecks, (17-8), 62 - 60
+Duke,duke, January 30 2017, 6:30 PM E.T., Notre Dame Ind (Purcell Pavilion), Blue Devils, (25-3), 84 - 74
+North Carolina,logoe, February 5 2017, 7:00 PM E.T., Greensboro N.C. (Greensboro Coliseum), Tar Heels, (22-4), 83 - 76
+Wake Forest,logod, February 7 2017, 6:30 PM E.T., Notre Dame Ind (Purcell Pavilion), Demon Deacons, (15-10), 88 - 81
+Florida State,logoc, February 11 2017, 6:30 PM E.T., Notre Dame Ind (Purcell Pavilion), Seminoles, (18-4), 84 - 76
+Boston College,logoa, February 14 2017, 8:30 PM E.T., Chestnut Hill Mass (Conte Forum), Eagles, (23-5), 81 - 72

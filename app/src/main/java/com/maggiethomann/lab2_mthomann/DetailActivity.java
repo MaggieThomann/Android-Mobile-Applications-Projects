@@ -49,9 +49,6 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         // Team Name
         // Logo resource file
         // Date of Game
@@ -63,24 +60,23 @@ public class DetailActivity extends AppCompatActivity {
 
         // startActivity(cameraIntent);
 
-        String[] stringInfo = getIntent().getStringArrayExtra("team");
-        text_team.setText(stringInfo[0]);
+        Team teamInfo = (Team) getIntent().getSerializableExtra("Team");
+
+        text_team.setText(teamInfo.getTeamName());
 
 
-        String mDrawableName = stringInfo[1];
-
-        Log.d("myTag", mDrawableName);
-
-        // int resID = getResources().getIdentifier(mDrawableName, "drawable", getPackageName());
-        int resID = getApplicationContext().getResources().getIdentifier(mDrawableName, "drawable", getApplicationContext().getPackageName());
+        String mDrawableName = teamInfo.getTeamlogo();
+        int resID = DetailActivity.this.getResources().getIdentifier(mDrawableName, "drawable", DetailActivity.this.getPackageName());
+        //int resID = getResources().getIdentifier(mDrawableName, "drawable", getPackageName());
+        //int resID = getApplicationContext().getResources().getIdentifier(mDrawableName, "drawable", getApplicationContext().getPackageName());
         Log.d("resource ID", String.valueOf(resID));
         image_team.setImageResource(resID);
 
-        text_date.setText(stringInfo[2] + " " + stringInfo[3]);
-        text_location.setText(stringInfo[4]);
-        text_nickname.setText(stringInfo[5]);
-        text_record.setText(stringInfo[6]);
-        text_score.setText(stringInfo[7]);
+        text_date.setText(teamInfo.getTeamDate() + " " + teamInfo.getTeamTime());
+        text_location.setText(teamInfo.getTeamLocation());
+        text_nickname.setText(teamInfo.getTeamNickname());
+        text_record.setText(teamInfo.getTeamRecord());
+        text_score.setText(teamInfo.getTeamScore());
 
 
     }
