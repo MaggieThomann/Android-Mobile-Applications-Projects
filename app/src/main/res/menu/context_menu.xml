@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<!-- Women's Basketball, Men's Basketball, On Campus Event, Off Campus Event-->
+    <item
+        android:id="@+id/women"
+        android:title="Women's Basketball"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/men"
+        android:title="Men's Basketball"
+        android:orderInCategory="200"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/oncampus"
+        android:title="On Campus Event"
+        android:orderInCategory="300"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/offcampus"
+        android:title="Off Campus Event"
+        android:orderInCategory="400"
+        app:showAsAction="ifRoom"/>
+
+</menu>

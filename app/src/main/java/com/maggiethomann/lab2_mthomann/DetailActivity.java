@@ -61,12 +61,16 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+
+                startActivity(cameraIntent);
+
+                /*
                 File PictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                 String pictureName = getPictureName();
                 File imageFile = new File(PictureDirectory, "duke.png");
                 Uri outputUri= FileProvider.getUriForFile(DetailActivity.getContext(), AUTHORITY, imageFile);
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);*/
             }
         });
 
@@ -96,6 +100,7 @@ public class DetailActivity extends AppCompatActivity {
 
         text_date.setText(teamInfo.getTeamDate() + " " + teamInfo.getTeamTime());
         text_location.setText(teamInfo.getTeamLocation());
+        Log.d("TEAM LOCATION:   ", teamInfo.getTeamLocation());
         text_nickname.setText(teamInfo.getTeamNickname());
         text_record.setText(teamInfo.getTeamRecord());
         text_score.setText(teamInfo.getTeamScore());
