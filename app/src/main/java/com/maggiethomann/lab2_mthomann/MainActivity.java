@@ -191,11 +191,10 @@ public class MainActivity extends AppCompatActivity {
             contentValues.put(dbHelper.COL_LOCATION, team.getTeamLocation());
             contentValues.put(dbHelper.COL_LOGO, team.getTeamlogo());
             contentValues.put(dbHelper.COL_DATE, team.getTeamDate());
-            contentValues.put(dbHelper.COL_ID, ID_COUNTER);
             ID_COUNTER++;
 
 
-            dbHelper.insertData("Team", contentValues);
+            dbHelper.insertData(dbHelper.TABLE_TEAM, contentValues);
         }
 
         ScheduleAdapter scheduleAdapter = new ScheduleAdapter(this, teams);

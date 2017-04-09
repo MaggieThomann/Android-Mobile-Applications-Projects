@@ -106,28 +106,29 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public ArrayList<Team> get_teams() {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + COL_NAME, new String[]{});
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TEAM, new String[]{});
 
-        ArrayList<Team> games = new ArrayList<Team>();
+        ArrayList<Team> all_info = new ArrayList<Team>();
 
         if (cursor != null ) {
             if  (cursor.moveToFirst()) {
                 do {
-                    String [] input = new String [9];
+                    // Create a string to store the team info
+                    String [] team_info = new String [9];
 
-                    input[0] = (cursor.getString(cursor.getColumnIndex(COL_NAME)));
-                    input[1] = (cursor.getString(cursor.getColumnIndex(COL_DATE)));
-                    input[2] = (cursor.getString(cursor.getColumnIndex(COL_ID)));
-                    input[3] = (cursor.getString(cursor.getColumnIndex(COL_LOCATION)));
-                    input[4] = (cursor.getString(cursor.getColumnIndex(COL_LOGO)));
-                    input[5] = (cursor.getString(cursor.getColumnIndex(COL_NICKNAME)));
-                    input[6] = (cursor.getString(cursor.getColumnIndex(COL_RECORD)));
-                    input[7] = (cursor.getString(cursor.getColumnIndex(COL_SCORE)));
-                    input[8] = (cursor.getString(cursor.getColumnIndex(COL_TIME)));
+                    // Construct the string from the cursor
+                    team_info[0] = (cursor.getString(cursor.getColumnIndex(COL_NAME)));
+                    team_info[1] = (cursor.getString(cursor.getColumnIndex(COL_LOGO)));
+                    team_info[2] = (cursor.getString(cursor.getColumnIndex(COL_DATE)));
+                    team_info[3] = (cursor.getString(cursor.getColumnIndex(COL_TIME)));
+                    team_info[4] = (cursor.getString(cursor.getColumnIndex(COL_LOCATION)));
+                    team_info[5] = (cursor.getString(cursor.getColumnIndex(COL_NICKNAME)));
+                    team_info[6] = (cursor.getString(cursor.getColumnIndex(COL_RECORD)));
+                    team_info[7] = (cursor.getString(cursor.getColumnIndex(COL_SCORE)));
 
-                    Team team = new Team(input);
-
-                    games.add(team);
+                    // Construct the object and add it to the array
+                    Team team = new Team(team_info);
+                    all_info.add(team);
 
                 }while (cursor.moveToNext());
             }
@@ -135,7 +136,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         cursor.close();
 
-        return games;
+        return all_info;
     }
 
 }
