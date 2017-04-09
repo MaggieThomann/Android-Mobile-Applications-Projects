@@ -1,10 +1,15 @@
 package com.maggiethomann.lab2_mthomann;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.os.Debug;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -18,23 +23,37 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.ArrayList;
 import android.content.Context;
+
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    DBHelper dbHelper;
     public static ArrayList<Team> teams = new ArrayList<>();
     public static ArrayList<String> list = new ArrayList<String>();
-    public static MenuItem settingsMenuItem = null;
+    public static View settingsMenuItem = null;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
+
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        settingsMenuItem = menu.findItem(R.id.settings);
+        settingsMenuItem = findViewById(R.id.settings);
         return true;
     }
 
@@ -46,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
             Intent shareIntent = new Intent();
             shareIntent.setAction(android.content.Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
-            shareIntent.putExtra("android.content.Intent.EXTRA_SUBJECT", "BasketBall Matches");
-            shareIntent.putExtra("android.content.Intent.EXTRA_TEXT", gameSchedule());
+            shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "BasketBall Matches");
+            shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, gameSchedule());
             startActivity(Intent.createChooser(shareIntent, "Share via"));
         }
 
@@ -75,8 +94,13 @@ public class MainActivity extends AppCompatActivity {
 
         else if (res_id == R.id.settings) {
             // Only works if it's not contained in the three dots
-            // registerForContextMenu((View) findViewById(R.id.settings));
-            // openContextMenu(settingsMenuItem);
+            ListView scheduleListView = (ListView) findViewById(R.id.scheduleListView);
+            registerForContextMenu(scheduleListView);
+            openContextMenu(scheduleListView);
+            unregisterForContextMenu(scheduleListView);
+            /*View scan = (View) findViewById(R.id.settings);
+            registerForContextMenu(View) findViewById(R.id.settings));
+            openContextMenu();*/
         }
         return true;
     }
@@ -131,25 +155,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MenuItem settingsMenuItem = (MenuItem) findViewById(R.id.settings);
-        // "Ohio State", "Florida State", "Wake Forest", "Boston College", "North Carolina State", "Georgia Tech","North Virginia", "Chicago Sate
-        // Team Name
-        // Logo resource file
-        // Date of Game
-        // Time of Game
-        // Game Location
-        // Team Nickname
-        // Team Record
-        // Team Score
 
-        // Lab 4 comment
+        // LAB 7:  DATABASE HELPER ----------------------------------------------
+        dbHelper = new DBHelper(this.getApplicationContext());
+        dbHelper.onUpgrade(dbHelper.getWritableDatabase(), 1, 2);
+        // ----------------------------------------------------------------------
 
-        // registerForContextMenu((View) findViewById(R.id.settings));
+        // Initializing csv reading
+        int resID = getApplicationContext().getResources().getIdentifier("schedule", "raw", getApplicationContext().getPackageName());
 
-
+        int ID_COUNTER = 0;
 
 
         MyCsvFileReader scheduleCSV = new MyCsvFileReader(getApplicationContext());
-        int resID = getApplicationContext().getResources().getIdentifier("schedule", "raw", getApplicationContext().getPackageName());
         ArrayList<String[]> teamArrayList = scheduleCSV.readCsvFile(resID);
 
 
@@ -161,7 +179,27 @@ public class MainActivity extends AppCompatActivity {
             list.add(teamObj.getTeamDate());
         }
 
+        for (Team team: teams) {
+
+            // Creating content values
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(dbHelper.COL_NAME, team.getTeamName());
+            contentValues.put(dbHelper.COL_NICKNAME, team.getTeamNickname());
+            contentValues.put(dbHelper.COL_SCORE, team.getTeamScore());
+            contentValues.put(dbHelper.COL_RECORD, team.getTeamRecord());
+            contentValues.put(dbHelper.COL_TIME, team.getTeamTime());
+            contentValues.put(dbHelper.COL_LOCATION, team.getTeamLocation());
+            contentValues.put(dbHelper.COL_LOGO, team.getTeamlogo());
+            contentValues.put(dbHelper.COL_DATE, team.getTeamDate());
+            contentValues.put(dbHelper.COL_ID, ID_COUNTER);
+            ID_COUNTER++;
+
+
+            dbHelper.insertData("Team", contentValues);
+        }
+
         ScheduleAdapter scheduleAdapter = new ScheduleAdapter(this, teams);
+
         ListView scheduleListView = (ListView) findViewById(R.id.scheduleListView);
         scheduleListView.setAdapter(scheduleAdapter);
         // this will automatically attach the listener to each item of the listview.
@@ -178,14 +216,14 @@ public class MainActivity extends AppCompatActivity {
 
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
             //Write code here to open the activity that will show details of the game event,i.e. if //you click on Florida State, you should see details of the match between Florida State //and Notre Dame. You need to do the following three steps.
+
 
             //create the intent to start DetailActivity
             Intent detailActivityIntent = new Intent(MainActivity.this, DetailActivity.class);
 
             //create a bundle object using the following
-            detailActivityIntent.putExtra("Team", teams.get(position)); // where al is your ArrayList holding team information.
+            detailActivityIntent.putExtra("Team", dbHelper.get_teams().get(position)); // where al is your ArrayList holding team information.
 
 
             //start the activity using the intent with the bundle you just created.

@@ -35,6 +35,8 @@ public class DetailActivity extends AppCompatActivity {
     private static Context mContext;
     private static final int CAMERA_REQUEST = 1888;
 
+
+
     @Override
 
     public void onCreate (Bundle bundle) {
