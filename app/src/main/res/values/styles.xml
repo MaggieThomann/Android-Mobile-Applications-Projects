@@ -33,7 +33,7 @@
 
 
     <style name="MyPopupTheme" parent="ThemeOverlay.AppCompat.Light"> 
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/gray_dark</item>
     </style>
 
 </resources>

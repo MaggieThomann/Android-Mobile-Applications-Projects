@@ -49,7 +49,6 @@ public class DetailActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_detail);
 
-        //initialize all the widgets of your layout file here.
         TextView text_date = (TextView) findViewById(R.id.date);
         TextView text_location = (TextView) findViewById(R.id.location);
         TextView text_team = (TextView) findViewById(R.id.team);
@@ -58,40 +57,10 @@ public class DetailActivity extends AppCompatActivity {
         TextView text_score = (TextView) findViewById(R.id.score);
         ImageView image_team = (ImageView) findViewById(R.id.image);
 
-        Button cameraButton = (Button) findViewById(R.id.button);
-        cameraButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        Button image_gallery = (Button) findViewById(R.id.button);
 
-                startActivity(cameraIntent);
-
-                /*
-                File PictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-                String pictureName = getPictureName();
-                File imageFile = new File(PictureDirectory, "duke.png");
-                Uri outputUri= FileProvider.getUriForFile(DetailActivity.getContext(), AUTHORITY, imageFile);
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);*/
-            }
-        });
-
-
-
-
-        // Team Name
-        // Logo resource file
-        // Date of Game
-        // Time of Game
-        // Game Location
-        // Team Nickname
-        // Team Record
-        // Team Score
-
-        // startActivity(cameraIntent);
-
-        Team teamInfo = (Team) getIntent().getSerializableExtra("Team");
-
+        final DBHelper dbHelper = new DBHelper(getApplicationContext());
+        final Team teamInfo = (Team) getIntent().getSerializableExtra("Team");
         text_team.setText(teamInfo.getTeamName());
 
 
@@ -106,6 +75,25 @@ public class DetailActivity extends AppCompatActivity {
         text_nickname.setText(teamInfo.getTeamNickname());
         text_record.setText(teamInfo.getTeamRecord());
         text_score.setText(teamInfo.getTeamScore());
+
+        image_gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                /*
+                ________________Image Gallery Activity - Lab 7 - Part 4c________________
+                */
+                // Create the intent
+                Intent gallery_activity_intent = new Intent(getApplicationContext(), GalleryActivity.class);
+
+                // Send the team id
+                long team_id = dbHelper.get_team_id(teamInfo.getTeamName());
+                gallery_activity_intent.putExtra("id", team_id);
+
+                // Start the intent
+                startActivity(gallery_activity_intent);
+            }
+        });
 
     }
 

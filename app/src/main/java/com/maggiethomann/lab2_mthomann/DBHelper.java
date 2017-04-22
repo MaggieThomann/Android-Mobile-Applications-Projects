@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.Settings;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 
 /**
@@ -29,6 +30,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public static String COL_SCORE = "score";
 
 
+    // Image Col Attributes
+    public static String TABLE_IMAGES = "Images";
+    public static String IMAGE_COL_ID = "_id";
+    public static String IMAGE_COL_TEAM_ID = "image_team_id";
+    public static String IMAGE_COL_IMAGE_SRC = "image_src";
+    public static String IMAGE_COL_URI = "image_uri";
+
+
 
     public DBHelper (Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -37,6 +46,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
+        // TEAMS TABLE
         db.execSQL("CREATE TABLE " + TABLE_TEAM + " ("
                 + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COL_NAME + " TEXT, "
@@ -49,14 +59,27 @@ public class DBHelper extends SQLiteOpenHelper {
                 + COL_SCORE + " TEXT "
                 + ");");
 
+        /*
+            ________Image Gallery Activity - Lab 7 - Part 4a________
+        */
+        db.execSQL("CREATE TABLE " + TABLE_IMAGES + " ("
+                + IMAGE_COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + IMAGE_COL_TEAM_ID + " TEXT, "
+                + IMAGE_COL_IMAGE_SRC + " BLOB, "
+                + IMAGE_COL_URI + " TEXT"
+                + ");");
+
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE if exists " + TABLE_TEAM );
+        db.execSQL("DROP TABLE if exists " + TABLE_IMAGES );
         onCreate(db);
     }
 
+    // Inserts data into either TABLE_TEAMS or TABLE_IMAGES depending on how it is called
     public void insertData(String tblname, ContentValues contentValues) {
         SQLiteDatabase db = getWritableDatabase();
 
@@ -125,6 +148,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     team_info[5] = (cursor.getString(cursor.getColumnIndex(COL_NICKNAME)));
                     team_info[6] = (cursor.getString(cursor.getColumnIndex(COL_RECORD)));
                     team_info[7] = (cursor.getString(cursor.getColumnIndex(COL_SCORE)));
+                    team_info[8] = (cursor.getString(cursor.getColumnIndex(COL_ID)));
 
                     // Construct the object and add it to the array
                     Team team = new Team(team_info);
@@ -138,5 +162,33 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return all_info;
     }
+
+    public long get_team_id(String team_name) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TEAM +
+                " WHERE " + COL_NAME + "=" + "'" + team_name + "'", null);
+
+        // Create a string to store the team info
+        long team_id = 0;
+
+        if (cursor != null ) {
+            if  (cursor.moveToFirst()) {
+                do {
+
+                    // Construct the string from the cursor
+                    team_id = (cursor.getLong(cursor.getColumnIndex(COL_ID)));
+
+
+                }while (cursor.moveToNext());
+            }
+        }
+
+        cursor.close();
+
+        return team_id;
+    }
+
+
 
 }
